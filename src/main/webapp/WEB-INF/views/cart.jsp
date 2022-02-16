@@ -12,14 +12,24 @@
 	<table>
 		<tr>
 			<td>Product</td>
+			<td>Price</td>
 			<td>Quantity</td>
+			<td>Subtotal</td>
 		</tr>
 		<c:forEach items="${cartList}" var="item">
 			<tr>
-				<td>${ item.productId }</td>
-				<td>${ item.quantity }</td>
+				<td>${ item.productName }</td>
+				<td>${ item.productPrice }</td>
+				<td>${ item.productQuantity }</td>
+				<td>${ item.productSubtotal }</td>
 			</tr>
 		</c:forEach>
+		<tr>
+			<td colspan="4">Total ${total}</td>
+		</tr>
+		<tr>
+			<td><a href="/app/purchase/${ userId }">Pay</a></td>
+		</tr>
 	</table>
 </body>
 </html>

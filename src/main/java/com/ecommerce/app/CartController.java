@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ecommerce.app.entity.Cart;
+import com.ecommerce.app.dto.CartProduct;
 import com.ecommerce.app.entity.Product;
 import com.ecommerce.app.service.CartService;
 import com.ecommerce.app.service.UserService;
@@ -26,11 +26,7 @@ public class CartController {
 
 	@RequestMapping(value="/addToCart", method = RequestMethod.POST)
 	public String addToCart(@ModelAttribute Product product) {
-		System.out.println(product.getProductId());
-		Cart cart = new Cart();
-		cart.setProductId(product.getProductId());
-		cart.setUserId(userService.getUser().getUserId());
-		cartService.addCartItem(cart);
+		cartService.addCartItem(product);
 		
 		return "redirect:/getProducts";
 	}
@@ -38,10 +34,13 @@ public class CartController {
 	@RequestMapping(value="/viewCart/{userId}", method = RequestMethod.GET)
 	public ModelAndView getCartList(@PathVariable Integer userId, ModelAndView modelAndView) {
 		if(userId == userService.getUser().getUserId()) {
-			List<Cart> cartList = cartService.getCartList();
+			List<CartProduct> cartList = cartService.getCartList();
+			double total = cartService.getTotalCart(cartList);
 			modelAndView.addObject("cartList", cartList);
+			modelAndView.addObject("total", total);
+			modelAndView.addObject("userId", userId);
 			modelAndView.setViewName("cart");
-		} else {			
+		} else {
 			modelAndView.setViewName("loginfailure");
 		}
 		return modelAndView;

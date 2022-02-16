@@ -2,10 +2,12 @@ package com.ecommerce.app.service;
 
 import java.util.List;
 
-import com.ecommerce.app.entity.Cart;
+import com.ecommerce.app.dto.CartProduct;
+import com.ecommerce.app.entity.Product;
 
 public interface CartService {
 	
-	void addCartItem(Cart cart);
-	List<Cart> getCartList();
+	void addCartItem(Product product);
+	List<CartProduct> getCartList();
+	double getTotalCart(List<CartProduct> cartProduct);
 }
